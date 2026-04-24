@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Launchmen Task UI</title>
+</head>
+<body>
+  <h1>Tasks</h1>
+
+  <form id="new-task-form">
+    <input id="new-task-title" type="text" placeholder="New task title" required />
+    <button type="submit">Add task</button>
+  </form>
+
+  <p id="status-msg"></p>
+
+  <ul id="task-list"></ul>
+
+  <script>
+    const API = 'http://localhost:3000';
+    const listEl = document.getElementById('task-list');
+    const statusEl = document.getElementById('status-msg');
+    const form = document.getElementById('new-task-form');
+    const input = document.getElementById('new-task-title');
+
+    function showError(err) {
+      statusEl.textContent = 'Error: ' + (err && err.message ? err.message : err);
+    }
+
+    async function loadTasks() {
+      statusEl.textContent = 'Loading…';
+      try {
+        const res = await fetch(API + '/tasks');
+        const data = await res.json();
+        renderTasks(data.tasks || []);
+        statusEl.textContent = '';
+      } catch (err) {
+        showError(err);
+      }
+    }
+
+    function renderTasks(tasks) {
+      listEl.innerHTML = '';
+      if (tasks.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = '(no tasks yet)';
+        listEl.appendChild(li);
+        return;
+      }
+      for (const t of tasks) {
+        const li = document.createElement('li');
+        li.textContent = `[${t.status}] ${t.title} `;
+
+        if (t.status !== 'done') {
+          const doneBtn = document.createElement('button');
+          doneBtn.textContent = 'Mark done';
+          doneBtn.onclick = () => markDone(t.id);
+          li.appendChild(doneBtn);
+        }
+
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.onclick = () => deleteTask(t.id);
+        li.appendChild(delBtn);
+
+        listEl.appendChild(li);
+      }
+    }
+
+    async function addTask(title) {
+      const res = await fetch(API + '/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || ('HTTP ' + res.status));
+      }
+      await loadTasks();
+    }
+
+    async function markDone(id) {
+      const res = await fetch(API + '/tasks/' + id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'done' }),
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      await loadTasks();
+    }
+
+    async function deleteTask(id) {
+      const res = await fetch(API + '/tasks/' + id, { method: 'DELETE' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      await loadTasks();
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = input.value.trim();
+      if (!title) return;
+      try {
+        await addTask(title);
+        input.value = '';
+      } catch (err) {
+        showError(err);
+      }
+    });
+
+    loadTasks();
+  </script>
+</body>
+</html>
