@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Launchmen — Task Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navbar-height: 64px;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+      padding-top: var(--navbar-height);
+    }
+
+    .navbar {
+      background: #1a1a2e;
+      color: white;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      height: var(--navbar-height);
+      z-index: 100;
+    }
+
+    .navbar .logo {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .navbar nav a {
+      color: white;
+      margin-left: 24px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.8;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+
+    .btn-primary {
+      background: #e94560;
+      color: #f4f6f9;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .section {
+      padding: 60px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section h2 {
+      font-size: 28px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #1a1a2e;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .badge-green  { background: #d4edda; color: #1a7a3c; }
+    .badge-orange { background: #fff3cd; color: #856404; }
+    .badge-red    { background: #f8d7da; color: #721c24; }
+
+    .stats {
+      background: #1a1a2e;
+      color: white;
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stat-item h3 {
+      font-size: 36px;
+      color: #e94560;
+      margin-bottom: 8px;
+    }
+
+    .stat-item p {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 13px;
+      color: #999;
+      background: #f4f6f9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">LAUNCHMEN</div>
+    <nav>
+      <a href="#">Dashboard</a>
+      <a href="#">Projects</a>
+      <a href="#">Team</a>
+      <a href="#">Settings</a>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <h1>Build Smarter. Ship Faster.</h1>
+    <p>Launchmen helps remote teams manage projects, track progress, and deliver results — powered by AI.</p>
+    <button class="btn-primary" onclick="handleCTA()">Get Started Free</button>
+  </div>
+
+  <div class="section">
+    <h2>Current Projects</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Tasker App — Phase 2</h3>
+        <p>Backend development for the task management system. Jonas is leading this sprint with Foam.</p>
+        <span class="badge badge-green">In Progress</span>
+      </div>
+      <div class="card">
+        <h3>Client Website — Silver Surge</h3>
+        <p>Landing page build for Chris. Includes video embed, countdown timer, and animated sections.</p>
+        <span class="badge badge-orange">Review</span>
+      </div>
+      <div class="card">
+        <h3>AI Avatar Pipeline</h3>
+        <p>Automated video generation workflow. Currently in testing with Tati managing QA.</p>
+        <span class="badge badge-red">Blocked</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <h2 style="margin-bottom: 40px;">Team Performance</h2>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h3>94%</h3>
+        <p>On-Time Delivery</p>
+      </div>
+      <div class="stat-item">
+        <h3>12</h3>
+        <p>Active Projects</p>
+      </div>
+      <div class="stat-item">
+        <h3>8</h3>
+        <p>Team Members</p>
+      </div>
+      <div class="stat-item">
+        <h3>3</h3>
+        <p>AI Tools in Use</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Launchmen. All rights reserved.
+  </footer>
+
+  <script>
+    function handleCTA() {
+      alert("Welcome to Launchmen! Redirecting to signup...");
+    }
+  </script>
+
+</body>
+</html>
