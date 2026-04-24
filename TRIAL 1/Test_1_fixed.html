@@ -66,6 +66,7 @@
     }
 
     .btn-primary {
+      display: inline-block;
       background: #e94560;
       color: #ffffff;
       padding: 14px 32px;
@@ -74,6 +75,7 @@
       font-size: 16px;
       font-weight: 600;
       letter-spacing: 0.3px;
+      text-decoration: none;
       cursor: pointer;
     }
 
@@ -177,7 +179,7 @@
   <div class="hero">
     <h1>Build Smarter. Ship Faster.</h1>
     <p>Launchmen helps remote teams manage projects, track progress, and deliver results — powered by AI.</p>
-    <button class="btn-primary" onclick="handleCTA()">Get Started Free</button>
+    <a class="btn-primary" href="#sign-up">Get Started Free</a>
   </div>
 
   <div class="section">
@@ -226,12 +228,6 @@
   <footer>
     &copy; 2026 Launchmen. All rights reserved.
   </footer>
-
-  <script>
-    function handleCTA() {
-      alert("Welcome to Launchmen! Redirecting to signup...");
-    }
-  </script>
 
 </body>
 </html>
