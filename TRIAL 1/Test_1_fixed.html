@@ -144,8 +144,8 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
+      grid-template-columns: 1fr;
+      gap: 16px;
       max-width: 900px;
       margin: 0 auto;
     }
@@ -234,6 +234,30 @@
   <footer>
     &copy; 2026 Launchmen. All rights reserved.
   </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const statItems = document.querySelectorAll(".stat-item h3");
+      statItems.forEach(function (el) {
+        const raw = el.textContent.trim();
+        const suffix = raw.endsWith("%") ? "%" : "";
+        const target = parseFloat(raw);
+        if (isNaN(target)) return;
+
+        const duration = 1200;
+        const startTime = performance.now();
+
+        function tick(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const current = Math.round(target * progress);
+          el.textContent = current + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+          else el.textContent = target + suffix;
+        }
+        requestAnimationFrame(tick);
+      });
+    });
+  </script>
 
 </body>
 </html>
